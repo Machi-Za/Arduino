@@ -15,10 +15,11 @@ const int BTN4 = 5;
 const int BTN5 = 6;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-int menuLevel = 0;
-int LogicA, LogicB, LogicC, LogicD = 0;
-int Btn_Up, Btn_Down, Btn_Left, Btn_Right, Btn_Enter, Btn_Ok = 0;
+
+int LogicA, LogicB, LogicC = 0;
+int Btn_Up, Btn_Down, Btn_Left, Btn_Right, Btn_Enter = 0;
 int PressA, PressB, PressC, PressD = 0;
+int Menu, Start = 0;;
 
 void setup()
 {
@@ -36,32 +37,67 @@ void setup()
 
 void loop()
 {
-  Btn_Up_Click();
-  Btn_Down_Click();
-  Btn_Right_Click();
-  Btn_Left_Click();
   Btn_Enter_Click();
-
-  if (LogicA == 0)
+  //Btn_Enter_Clicked()
+  if (LogicC == 1 && Start == 0)
   {
-    if (LogicB == 0)
-    {
-      Menu_Gyro();
-    }
-    else if (LogicB == 1)
-    {
-      Menu1();
-    }
+    Start = 1;
   }
-  else if (LogicA == 1)
+  if (Start == 1)
   {
-    if (LogicB == 0)
+    Btn_Up_Click();
+    Btn_Down_Click();
+    Btn_Right_Click();
+    Btn_Left_Click();
+    //Btn_Up_Clicked()
+    if (LogicA == 0 && Menu == 0)
     {
-      Menu_Calib();
+      //Btn_Right_Clicked()
+      if (LogicB == 1)
+      {
+        Menu = 1;
+        Menu_Gyro();
+      }
+      //Btn_Left_Clicked()
+      else if (LogicB == 0)
+      {
+        Menu = 0;
+        Menu1();
+      }
     }
-    else if (LogicB == 1)
+
+    else if (LogicA == 0 && Menu == 1)
     {
-      Menu2();
+      if (LogicB == 0)
+      {
+        Menu = 0;
+        Menu1();
+      }
+    }
+
+    //Btn_Down_Clicked()
+    else if (LogicA == 1 && Menu == 0)
+    {
+      //Btn_Right_Clicked()
+      if (LogicB == 1)
+      {
+        Menu = 1;
+        Menu_Calib();
+      }
+      //Btn_Left_Clicked()
+      else if (LogicB == 0)
+      {
+        Menu = 0;
+        Menu2();
+      }
+    }
+    else if (LogicA == 1 && Menu == 1)
+    {
+      if (LogicB == 0)
+      {
+        Menu = 0;
+        Menu2();
+      }
     }
   }
 }
